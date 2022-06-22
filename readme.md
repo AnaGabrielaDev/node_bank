@@ -1,6 +1,4 @@
-<img src="https://get.scratchpay.com/hubfs/vertical-landings/2020_SP_Animation_1_Transparent_1080x1080_V06.gif
-" width=500 height=200>
-</img>
+  ![view](https://user-images.githubusercontent.com/72721343/175119795-95e7af44-3b47-46e0-adca-baf45ff85778.gif)
 
 # Node Bank
 
@@ -17,6 +15,7 @@ this is a node project, created following the rocktetseat teaching platform clas
 ```http
   POST /account
 ```
+![Uploading Capture0.png…]()
 
 | Parameter Body | Type     | Description  |
 | :------------- | :------- | :----------- |
