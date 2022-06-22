@@ -131,4 +131,12 @@ app.delete("/account", (req, res) => {
     return res.status(204).send();
 });
 
+app.get("/balance", (req, res) => {
+    const { costumer } = req;
+
+    const balance = getBalance(costumer.statement);
+
+    return res.json(balance);
+});
+
 app.listen(3333);
