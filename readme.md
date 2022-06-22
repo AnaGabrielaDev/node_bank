@@ -15,7 +15,6 @@ this is a node project, created following the rocktetseat teaching platform clas
 ```http
   POST /account
 ```
-![Uploading Capture0.png…]()
 
 | Parameter Body | Type     | Description  |
 | :------------- | :------- | :----------- |
