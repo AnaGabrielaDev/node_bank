@@ -34,6 +34,15 @@ function verifyIfExists(req, res, next) {
     return next();
 }
 
+function getBalance(statement) {
+    const balance = statement.reduce((acc, operation) => {
+        if(operation.type === 'credit') return acc + operation.amount;
+        else return acc - operation.amount;
+    }, 0);
+
+    return balance;
+}
+
 app.use(verifyIfExists);
 
 app.get("/statement", (req, res) => {
@@ -52,10 +61,28 @@ app.post("/deposit", (req, res) => {
         created_at: new Date(),
         type: 'credit'
     };
-    
+
     costumer.statement.push(statementOperation);
 
     return res.send(201).send();
 });
 
+app.post("/withdraw", (req, res) => {
+    const { costumer } = req;
+    const { amount } = req.body;
+
+    const balance = getBalance(costumer.statement);
+
+    if(balance < amount) return res.status(400).json({error: "Insufficient founds!"});
+
+    const statementOperation = {
+        amount, 
+        created_at: new Date(),
+        type: "debit"
+    };
+
+    costumer.statement.push(statementOperation);
+
+    return res.status(201).send();
+});
 app.listen(3333);
