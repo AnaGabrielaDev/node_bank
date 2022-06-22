@@ -5,23 +5,6 @@ const app = express();
 const costumers = [];
 app.use(express.json());
 
-app.post("/account",(req, res) => {
-    const { cpf, name } = req.body;
-
-    const verifyIfAlreadyExists = costumers.some((costumers) => costumers.cpf === cpf);
-
-    if(verifyIfAlreadyExists) return res.json({error: "Costumers already exists"});
-
-    costumers.push({
-        id: uuid(),
-        cpf,
-        name,
-        statement: []
-    });
-
-    return res.status(200).send(costumers);
-
-});
 
 function verifyIfExists(req, res, next) {
     const { cpf } = req.headers;
@@ -43,6 +26,24 @@ function getBalance(statement) {
     return balance;
 }
 
+app.post("/account",(req, res) => {
+    const { cpf, name } = req.body;
+
+    const verifyIfAlreadyExists = costumers.some((costumers) => costumers.cpf === cpf);
+
+    if(verifyIfAlreadyExists) return res.json({error: "Costumers already exists"});
+
+    costumers.push({
+        id: uuid(),
+        cpf,
+        name,
+        statement: []
+    });
+
+    return res.status(200).send(costumers);
+
+});
+
 app.use(verifyIfExists);
 
 app.get("/statement", (req, res) => {
@@ -54,6 +55,8 @@ app.get("/statement", (req, res) => {
 app.post("/deposit", (req, res) => {
     const { costumer } = req;
     const { amount, description } = req.body;
+
+    if(amount < 1) return res.status(400).json({error: "deposit must be greater than 1"});
 
     const statementOperation = {
         amount, 
@@ -71,6 +74,8 @@ app.post("/withdraw", (req, res) => {
     const { costumer } = req;
     const { amount } = req.body;
 
+    if(amount < 1) return res.status(400).json({error: "withdraw must be greater than 1"});
+
     const balance = getBalance(costumer.statement);
 
     if(balance < amount) return res.status(400).json({error: "Insufficient founds!"});
@@ -85,4 +90,5 @@ app.post("/withdraw", (req, res) => {
 
     return res.status(201).send();
 });
+
 app.listen(3333);
