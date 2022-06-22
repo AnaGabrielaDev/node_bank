@@ -67,7 +67,7 @@ app.post("/deposit", (req, res) => {
 
     costumer.statement.push(statementOperation);
 
-    return res.send(201).send();
+    return res.status(201).send();
 });
 
 app.post("/withdraw", (req, res) => {
@@ -89,6 +89,23 @@ app.post("/withdraw", (req, res) => {
     costumer.statement.push(statementOperation);
 
     return res.status(201).send();
+});
+
+app.get("/statement/date", (req, res) => {
+    const { costumer } = req;
+    const { date } = req.query;
+    
+    const dateFormat = new Date(date + " 00:00");
+
+    const statement = costumer.statement.filter(
+        (statement) => 
+            statement.created_at.toDateString() ===
+            dateFormat.toDateString()
+    );
+
+    if(statement.length === 0) return res.status(400).json({error: "There is no movement that day"});
+
+    return res.json(statement);
 });
 
 app.listen(3333);
