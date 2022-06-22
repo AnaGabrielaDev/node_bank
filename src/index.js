@@ -41,4 +41,21 @@ app.get("/statement", (req, res) => {
 
     return res.send(costumer.statement)
 });
+
+app.post("/deposit", (req, res) => {
+    const { costumer } = req;
+    const { amount, description } = req.body;
+
+    const statementOperation = {
+        amount, 
+        description,
+        created_at: new Date(),
+        type: 'credit'
+    };
+    
+    costumer.statement.push(statementOperation);
+
+    return res.send(201).send();
+});
+
 app.listen(3333);
