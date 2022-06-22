@@ -121,6 +121,14 @@ app.get("/account", (req, res) => {
     const { costumer } = req;
 
     return res.status(200).json(costumer);
-})
+});
+
+app.delete("/account", (req, res) => {
+    const { costumer } = req;
+
+    costumers.splice(costumer, 1);
+
+    return res.status(204).send();
+});
 
 app.listen(3333);
