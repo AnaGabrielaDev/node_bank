@@ -108,4 +108,13 @@ app.get("/statement/date", (req, res) => {
     return res.json(statement);
 });
 
+app.patch("/account", (req, res) => {
+    const { costumer } = req;
+    const { name } = req.body;
+    
+    costumer.name = name;
+
+    return res.status(200).send();
+});
+
 app.listen(3333);
