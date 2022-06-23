@@ -8,7 +8,7 @@ this is a node project, created following the rocktetseat teaching platform clas
 
 **Back-end:** Node, Express, UUID, nodemon
 
-## Documentação da API
+## API Documentation
 
 #### Return an object
 
